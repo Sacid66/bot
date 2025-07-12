@@ -36,12 +36,13 @@ class SimpleInstagramBot:
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-plugins')
         
-        # Chrome binary (Dockerfile ile kurulacak)
+        # Chrome binary (Aptfile ile kurulacak)
         chrome_paths = [
             '/usr/bin/google-chrome-stable',
             '/usr/bin/google-chrome',
             '/usr/bin/chromium-browser',
-            '/usr/bin/chromium'
+            '/usr/bin/chromium',
+            '/opt/google/chrome/google-chrome'  # Alternatif yol
         ]
         
         chrome_found = False
@@ -53,7 +54,10 @@ class SimpleInstagramBot:
                 break
         
         if not chrome_found:
-            raise Exception("❌ Chrome bulunamadı! Dockerfile ile kurulmalı.")
+            print("⚠️ Chrome bulunamadı, chromium deneniyor...")
+            # Chromium alternatifi
+            options.add_argument('--disable-features=VizDisplayCompositor')
+            # Chrome binary belirtme, sistem defaultunu kullan
         
         # ChromeDriver
         try:
